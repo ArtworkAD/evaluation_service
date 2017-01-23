@@ -15,7 +15,8 @@
     "monk": "^3.1.2",
     "ajv": "^4.7.0",
     "dotenv": "^4.0.0",
-    "jsonexport": "^1.5.2"
+    "jsonexport": "^1.5.2",
+    "request": "^2.79.1"
   },
   "devDependencies": {
     "gulp": "^3.9.1",

@@ -47,7 +47,7 @@ module.exports = {
 	async updateWebhook(webhook, jobId) {
 		return request({
 			method: 'PUT',
-			url: process.env.CROWDFLOWER_API_URL + '/jobs/' + jobId + '?key=' + process.env.CROWDFLOWER_API_KEY + '&job[webhook_uri]=' + webhook,
+			url: process.env.CROWDFLOWER_API_URL + '/jobs/' + jobId + '?key=' + process.env.CROWDFLOWER_API_KEY + '&job[webhook_uri]=' + webhook + '&job[send_judgments_webhook]=true',
 			headers: {
 				'Accept': 'application/json'
 			}
