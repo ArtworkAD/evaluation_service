@@ -2,8 +2,11 @@
 const database = require('monk')('localhost/material');
 
 // Load own packages
+const app = require('../app.js');
+const router = app.router;
 const colors = database.get('ideas');
 const schema = require('./schema');
+const util = require('./util.js');
 
 const CrowdflowerApi = require('./crowdflower_api.js');
 const IdeaGeneratorApi = require('./idea_generator_api.js');
@@ -19,24 +22,26 @@ const validator = require("ajv")({
 // Load schemas
 validator.addSchema(schema.generator_random, 'generator_random');
 
-// List job information
 module.exports.job = async ctx => {
-	ctx.body = await CrowdflowerApi.getJob();
+	ctx.body = await CrowdflowerApi.getJob(ctx.params.id);
 };
 
 module.exports.random = async ctx => {
 	if (validator.validate('generator_random', ctx.request.body)) {
-
 		const params = ctx.request.body;
+		await CrowdflowerApi.updateWebhook(util.toAbsoluteUrl(ctx, router.url('job.evaluate', ctx.params.id)), ctx.params.id);
 		const ideas = await IdeaGeneratorApi.getRandomIdeas(params.product, params.number_of_ideas, params.number_of_components_per_idea);
-
-		ctx.body = await CrowdflowerApi.uploadIdeas(ideas);
+		ctx.body = await CrowdflowerApi.uploadIdeas(ideas, ctx.params.id);
 	} else {
 		ctx.throw(422, validator.errorsText());
 	}
 };
 
 module.exports.evaluate = async ctx => {
-	console.log(ctx.request.body);
-	ctx.body = ctx.request.body;
+	if (ctx.params.id) {
+		console.log(ctx.request.body);
+		ctx.body = ctx.request.body;
+	} else {
+		ctx.throw(422, 'Missing jobId parameter');
+	}
 };

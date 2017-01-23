@@ -7,17 +7,13 @@ const logger = require('koa-logger');
 const body = require('koa-bodyparser');
 const error = require('koa-json-error');
 const cors = require('kcors');
-const util = require('./app/util.js');
 
 // Setup database singleton
 const database = module.exports.database = require('monk')(process.env.DB_HOST + '/' + process.env.DB_NAME);
-
 // Router singleton
 const router = module.exports.router = require('koa-router')();
-
 // Load api
 const evaluation_api = require('./app/evaluation_api.js');
-
 // Create app
 const app = module.exports.app = new koa();
 
@@ -38,14 +34,8 @@ app
 	.use(router.allowedMethods());
 
 router
-	.get('job.get', '/job', evaluation_api.job)
-	.post('job.upload.random', '/job/upload/random', evaluation_api.random)
-	.post('job.evaluate', '/job/evaluate', evaluation_api.evaluate)
-	.get('/', (ctx, next) => {
-		ctx.body = {
-			job: util.toAbsoluteUrl(ctx, router.url('job.get')),
-			job_upload_random: util.toAbsoluteUrl(ctx, router.url('job.upload.random'))
-		};
-	});
+	.get('job.get', '/job/:id', evaluation_api.job)
+	.post('job.upload.random', '/job/:id/upload-random', evaluation_api.random)
+	.post('job.evaluate', '/job/:id/evaluate', evaluation_api.evaluate);
 
 app.listen(process.env.PORT || 3000);
