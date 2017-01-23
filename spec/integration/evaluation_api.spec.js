@@ -12,7 +12,7 @@ describe('evaluation rest api test suit', function() {
 
   it('should show job when correct job id is provided', function*() {
 		yield request
-			.get('/job/983808')
+			.get('/job/984308')
 			.set('Accept', /application\/json/)
       .expect('Content-Type', /application\/json/)
 			.expect(200);
@@ -27,7 +27,7 @@ describe('evaluation rest api test suit', function() {
     };
 
 		yield request
-			.post('/job/983808/upload-random')
+			.post('/job/984308/upload-random')
 			.type('json')
 			.send(params)
 			.set('Accept', /application\/json/)
@@ -39,7 +39,7 @@ describe('evaluation rest api test suit', function() {
     const params = {};
 
 		yield request
-			.post('/job/983808/upload-random')
+			.post('/job/984308/upload-random')
 			.type('json')
 			.send(params)
 			.set('Accept', /application\/json/)
