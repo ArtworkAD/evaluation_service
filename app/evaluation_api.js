@@ -38,10 +38,7 @@ module.exports.random = async ctx => {
 };
 
 module.exports.evaluate = async ctx => {
-	if (ctx.params.id) {
-		console.log(ctx.request.body);
-		ctx.body = ctx.request.body;
-	} else {
-		ctx.throw(422, 'Missing jobId parameter');
-	}
+	console.log(ctx.request.body);
+	ctx.status = 200;
+	ctx.body = {};
 };
