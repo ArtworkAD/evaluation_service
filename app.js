@@ -36,6 +36,8 @@ app
 router
 	.get('job.get', '/job/:id', evaluation_api.job)
 	.post('job.upload.random', '/job/:id/upload-random', evaluation_api.random)
-	.post('job.evaluate', '/job/:id/evaluate', evaluation_api.evaluate);
+	.post('job.evaluate', '/job/:id/evaluate', evaluation_api.evaluate)
+	.get('job.evaluate', '/job/:id/evaluate', evaluation_api.evaluate)
+	.put('job.evaluate', '/job/:id/evaluate', evaluation_api.evaluate);
 
 app.listen(process.env.PORT || 3000);
